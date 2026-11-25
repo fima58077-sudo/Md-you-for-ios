@@ -35,7 +35,7 @@ static NSString *StringPref(NSString *key, NSString *def) {
 }
 
 static void loadPrefs(void) {
-    CFPreferencesAppSynchronize(DOMAIN);
+    CFPreferencesAppSynchronize(kTweakDomain);
     gEnabled  = BoolPref(@"enabled", YES);
     gTintApps = BoolPref(@"tintApps", YES);
     gSwitches = BoolPref(@"switches", YES);
