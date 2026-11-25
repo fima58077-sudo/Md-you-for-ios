@@ -2,7 +2,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreFoundation/CoreFoundation.h>
 
-#define DOMAIN CFSTR("com.myrepo.materialyoukit")
+#define kTweakDomain CFSTR("com.myrepo.materialyoukit")
 #define RELOAD_NOTIFICATION CFSTR("com.myrepo.materialyoukit/reload")
 #define OVERLAY_TAG 773177
 
