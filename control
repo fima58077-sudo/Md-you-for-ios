@@ -1,0 +1,9 @@
+Package: com.myrepo.materialyoukit
+Name: MaterialYouKit
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Material You по всей системе: акцентный цвет, переключатели и док-таблетка.
+Maintainer: Me <me@example.com>
+Author: Me <me@example.com>
+Section: Tweaks
+Depends: mobilesubstrate, preferenceloader
