@@ -20,11 +20,6 @@ jobs:
           git clone --depth=1 https://github.com/theos/sdks.git "$HOME/theos/sdks"
           echo "THEOS=$HOME/theos" >> "$GITHUB_ENV"
 
-      - name: Build rootful (iphoneos-arm)
-        run: |
-          export PATH="$(brew --prefix make)/libexec/gnubin:$PATH"
-          make clean package FINALPACKAGE=1
-
       - name: Build rootless (iphoneos-arm64)
         run: |
           export PATH="$(brew --prefix make)/libexec/gnubin:$PATH"
