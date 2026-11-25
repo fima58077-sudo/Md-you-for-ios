@@ -16,11 +16,13 @@ jobs:
       - name: Install Theos and iOS 15 SDK
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq git perl clang lld llvm make fakeroot
+          sudo apt-get install -y -qq bash curl sudo xz-utils make perl git fakeroot
           export THEOS="$HOME/theos"
-          git clone --recursive --depth 1 https://github.com "$THEOS"
-          git clone --depth 1 https://github.com /tmp/sdks
-          cp -r /tmp/sdks/iPhoneOS15.6.sdk "$THEOS/sdks/"
+          H="github.com"
+          R="://githubusercontent.com"
+          CI=1 bash -c "$(curl -fsSL https://$R/theos/theos/master/bin/install-theos)"
+          git clone --depth 1 "https://$H/theos/sdks.git" /tmp/sdks
+          cp -rn /tmp/sdks/iPhoneOS15.6.sdk "$THEOS/sdks/"
           rm -rf /tmp/sdks
 
       - name: Build rootless for iOS 15 (iphoneos-arm64)
