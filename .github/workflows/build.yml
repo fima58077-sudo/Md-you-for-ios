@@ -2,31 +2,25 @@ name: Build tweak
 
 on:
   push:
+  pull_request:
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Install tools
-        run: brew install ldid dpkg make xz
-
-      - name: Install Theos and SDKs
-        run: |
-          git clone --recursive https://github.com/theos/theos.git "$HOME/theos"
-          rm -rf "$HOME/theos/sdks"
-          git clone --depth=1 https://github.com/theos/sdks.git "$HOME/theos/sdks"
-          echo "THEOS=$HOME/theos" >> "$GITHUB_ENV"
+      - name: Setup Theos
+        uses: beerpiss/theos-action@v1
 
       - name: Build rootless (iphoneos-arm64)
-        run: |
-          export PATH="$(brew --prefix make)/libexec/gnubin:$PATH"
-          make clean package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+        run: make clean package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
 
       - name: Upload .deb
         uses: actions/upload-artifact@v4
         with:
-          name: MaterialYouKit-deb
+          name: rootless-deb
           path: packages/*.deb
