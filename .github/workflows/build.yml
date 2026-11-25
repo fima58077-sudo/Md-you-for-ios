@@ -13,10 +13,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Theos
-        uses: waruhachi/theos-action@v2.6.6
+      - name: Install Theos and iOS 15 SDK
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fakeroot git perl clang lld llvm make curl unzip
+          git clone --recursive --depth 1 https://github.com $HOME/theos
+          curl -sL https://github.com -o sdks.zip
+          unzip -q sdks.zip
+          mv sdks-master/iPhoneOS15.6.sdk $HOME/theos/sdks/
+          rm -rf sdks.zip sdks-master
 
       - name: Build rootless for iOS 15 (iphoneos-arm64)
+        env:
+          THEOS: ${{ runner.home }}/theos
         run: make clean package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless TARGET=iphone:clang:15.6:15.0
 
       - name: Upload .deb
