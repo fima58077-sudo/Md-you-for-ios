@@ -30,7 +30,7 @@ static BOOL BoolPref(NSString *key, BOOL def) {
 }
 
 static NSString *StringPref(NSString *key, NSString *def) {
-    id v = (__bridge_transfer id)CFPreferencesCopyAppValue((__bridge CFStringRef)key, DOMAIN);
+    id v = (__bridge_transfer id)CFPreferencesCopyAppValue((__bridge CFStringRef)key, kTweakDomain);
     return [v isKindOfClass:[NSString class]] ? v : def;
 }
 
