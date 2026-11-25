@@ -14,16 +14,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Theos and iOS 15 SDK
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq bash curl sudo xz-utils make perl git fakeroot
           export THEOS="$HOME/theos"
-          H="github.com"
-          R="://githubusercontent.com"
-          CI=1 bash -c "$(curl -fsSL https://$R/theos/theos/master/bin/install-theos)"
-          git clone --depth 1 "https://$H/theos/sdks.git" /tmp/sdks
-          cp -rn /tmp/sdks/iPhoneOS15.6.sdk "$THEOS/sdks/"
-          rm -rf /tmp/sdks
+          gh api repos/theos/theos/contents/bin/install-theos -H "Accept: application/vnd.github.raw" > /tmp/install-theos
+          CI=1 bash /tmp/install-theos
+          gh repo clone theos/sdks /tmp/sdks -- --depth 1
+          find /tmp/sdks -maxdepth 3 -name "iPhoneOS15.6.sdk" -exec cp -rn {} "$THEOS/sdks/" \;
+          rm -rf /tmp/sdks /tmp/install-theos
 
       - name: Build rootless for iOS 15 (iphoneos-arm64)
         run: |
