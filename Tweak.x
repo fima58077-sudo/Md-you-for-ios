@@ -25,7 +25,7 @@ static UIColor *HexColor(unsigned int h) {
 }
 
 static BOOL BoolPref(NSString *key, BOOL def) {
-    id v = (__bridge_transfer id)CFPreferencesCopyAppValue((__bridge CFStringRef)key, DOMAIN);
+    id v = (__bridge_transfer id)CFPreferencesCopyAppValue((__bridge CFStringRef)key, kTweakDomain);
     return [v isKindOfClass:[NSNumber class]] ? [v boolValue] : def;
 }
 
